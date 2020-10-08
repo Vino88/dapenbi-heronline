@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="partial/header :: header"></head>
+<body>
+  <div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <nav th:replace="partial/navbar :: navbar"></nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <div class="row row-offcanvas row-offcanvas-right">
+        <nav th:replace="partial/menu :: sidebar"></nav>
+        <!-- partial -->
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-lg-12 grid-margin">
+              <div class="card performance-cards">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col d-flex flex-row justify-content-center align-items-center">
+                      <div class="wrapper icon-circle bg-success">
+                        <i class="icon-rocket icons"></i>
+                      </div>
+                      <div class="wrapper text-wrapper">
+                        <p class="text-dark" id="periode_aktif">-</p>
+                        <p>Periode Aktif</p>
+                      </div>
+                    </div>
+
+                    <div class="col d-flex flex-row justify-content-center align-items-center">
+                      <div class="wrapper icon-circle bg-warning">
+                        <i class="icon-umbrella icons"></i>
+                      </div>
+                      <div class="wrapper text-wrapper">
+                        <p class="text-dark" id="total_peserta">6521</p>
+                        <p>Total Peserta Registrasi Ulang</p>
+                      </div>
+                    </div>
+                    <div class="col d-flex flex-row justify-content-center align-items-center">
+                      <div class="wrapper icon-circle bg-primary">
+                        <i class="icon-check icons"></i>
+                      </div>
+                      <div class="wrapper text-wrapper">
+                        <p class="text-dark" id="total_sudah_her">325</p>
+                        <p>Total Yang Sudah Registrasi</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ROW ENDS -->
+          <div class="row section social-section">
+            <div class="col-lg-12 grid-margin">
+              <div class="card performance-cards">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col d-flex flex-row">
+                      <h3>Selamat Datang</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+        <footer th:replace="partial/footer :: footer"></footer>
+        <!-- partial -->
+      </div>
+      <!-- row-offcanvas ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+  <!-- plugins:js -->
+  <section th:replace="partial/scripts :: script"></section>
+  <!-- Custom js for this page-->
+  <script th:src="@{/js/dashboard.js}"></script>
+  <script type="text/javascript">
+
+      $.ajax({
+          url: '[[${gateway_path_api}]]' + '/get-periode-aktif',
+          method: "GET",
+          success: function (data) {
+              var bulan = data.substring(0,2);
+              var bulan_desc = "";
+              if (bulan == "01"){ bulan_desc = "Jan "}
+              else if (bulan == "02"){ bulan_desc = "Feb "}
+              else if (bulan == "03"){ bulan_desc = "Mar "}
+              else if (bulan == "04"){ bulan_desc = "Apr "}
+              else if (bulan == "05"){ bulan_desc = "Mei "}
+              else if (bulan == "06"){ bulan_desc = "Jun "}
+              else if (bulan == "07"){ bulan_desc = "Jul "}
+              else if (bulan == "08"){ bulan_desc = "Aug "}
+              else if (bulan == "09"){ bulan_desc = "Sep "}
+              else if (bulan == "10"){ bulan_desc = "Oct "}
+              else if (bulan == "11"){ bulan_desc = "Nov "}
+              else if (bulan == "12"){ bulan_desc = "Des "}
+              var tahun = data.substring(2);
+              $("#periode_aktif").text(bulan_desc + tahun);
+              $.ajax({
+                  url: '[[${dashboard_path_api}]]'+'?tahunHer='+tahun,
+                  method: "GET",
+                  success: function (data) {
+                      $("#total_peserta").text(data.totalPeserta);
+                      $("#total_sudah_her").text(data.totalSudahHer);
+                  },
+                  statusCode: {
+                      500: function (xhr) {
+                          swal({title: "Gagal", text: xhr.responseText, icon: "error", button: "OK"});
+                      },
+                      302: function (xhr) {
+                          loader($("body"), false);
+                          swal({title: "Gagal", text: "Terjadi kegagalan.", icon: "error", button: "OK"});
+                      }
+                  }
+              });
+          },
+          statusCode: {
+              500: function (xhr) {
+                  swal({title: "Gagal", text: xhr.responseText, icon: "error", button: "OK"});
+              },
+              302: function (xhr) {
+                  loader($("body"), false);
+                  swal({title: "Gagal", text: "Terjadi kegagalan.", icon: "error", button: "OK"});
+              }
+          }
+      });
+
+
+  </script>
+</body>
+
+</html>

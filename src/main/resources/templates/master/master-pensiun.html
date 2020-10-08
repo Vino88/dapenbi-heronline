@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="partial/header :: header">
+
+</head>
+<body>
+<div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <nav th:replace="partial/navbar :: navbar"></nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <div class="row row-offcanvas row-offcanvas-right">
+            <nav th:replace="partial/menu :: sidebar"></nav>
+            <!-- partial -->
+            <div class="content-wrapper">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Daftar Master Pensiun</h4>
+                        <div class="row">
+                            <div class="col-12">
+                                <button class='btn btn-success btn-fw' onclick="sinkronisasi()">Sinkronisasi Data</button><br><br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <table id="mpensiun_table" class="table" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>NIP</th>
+                                        <th>Nama Peserta</th>
+                                        <th>Id Penerima MP</th>
+                                        <th>Nama Penerima</th>
+                                        <th>Alamat</th>
+                                        <th>RT</th>
+                                        <th>RW</th>
+                                        <th>No.HP</th>
+                                        <th>No.Telepon</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- MODAL -->
+            <!-- LOADER -->
+            <div id="loaderSection">
+                <div class="modal fade" id="loaderModal" role="dialog" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+                    <div class="loader"></div>
+                </div>
+            </div>
+            <!-- END LOADER -->
+            <!-- END MODAL -->
+            <!-- content-wrapper ends -->
+            <!-- partial:partials/_footer.html -->
+            <footer class="footer">
+                <div class="container-fluid clearfix">
+                    <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2019</span>
+                </div>
+            </footer>
+            <!-- partial -->
+        </div>
+        <!-- row-offcanvas ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+
+<section th:replace="partial/scripts :: script"></section>
+<!-- Custom js for this page-->
+<script th:src="@{/js/dkppMain.js}"></script>
+<script th:src="@{/js/data-table.js}"></script>
+<script type="text/javascript">
+
+    var mutasiKantorBayar = dkppDataTable($('#mpensiun_table'),
+        '[[${mpensiun_path_api}]]',
+        {
+            'columns': [
+                {
+                    "data": "nip"
+                },
+                {
+                    "data": "namaPeserta"
+                },
+                {
+                    "data": "idPenerimaMP"
+                },
+                {
+                    "data": "namaPenerimaMp"
+                },
+                {
+                    "data": "alamatLengkap"
+                },
+                {
+                    "data": "rt"
+                },
+                {
+                    "data": "rw"
+                },
+                {
+                    "data": "noHp"
+                },
+                {
+                    "data": "noTelp"
+                }
+            ],
+            'columnDefs': [
+
+            ]
+        });
+
+    function sinkronisasi() {
+        showLoader();
+        $.ajax({
+            url: '[[${gateway_path_api}]]' + '/sinkron-master-pensiun',
+            method: "GET",
+            success: function(data){
+                hideLoader();
+                swal({title: "Berhasil", text: "Sinkronisasi Data Berhasil", icon: "success", button: "OK"}).then(function(){
+                    window.location.reload();
+                });
+            },
+            statusCode: {
+                500: function(xhr) {
+                    hideLoader();
+                    swal({title: "Gagal", text: xhr.responseText, icon: "error", button: "OK"});
+                },
+                302: function(xhr){
+                    hideLoader();
+                    swal({title: "Gagal", text: "Terjadi kegagalan.", icon: "error", button: "OK"});
+                },
+                404: function(xhr){
+                    hideLoader();
+                    swal({title: "Gagal", text: "Terjadi kegagalan.", icon: "error", button: "OK"});
+                },
+                405: function(xhr){
+                    hideLoader();
+                    swal({title: "Gagal", text: "Terjadi kegagalan.", icon: "error", button: "OK"});
+                }
+            }
+        });
+    }
+
+    function hideLoader(){
+        $("#loaderSection").html("");
+        $(".modal-backdrop").remove();
+    }
+
+    function showLoader(){
+
+        $("#loaderSection").html('<div class="modal fade" id="loaderModal" role="dialog" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">\n' +
+            '                    <div class="loader"></div>\n' +
+            '                </div>');
+        $("#loaderModal").modal("show");
+    }
+</script>
+<!-- End custom js for this page-->
+</body>
+
+</html>

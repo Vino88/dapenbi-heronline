@@ -1,0 +1,88 @@
+<!-- partial:partials/_sidebar.html -->
+<nav class="sidebar sidebar-offcanvas" id="sidebar" th:fragment="sidebar">
+    <ul class="nav">
+        <li class="nav-item nav-category">
+            <span class="nav-link">MASTER DATA</span>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/master-data/ppbi}">
+                <span class="menu-title">PPBI</span>
+                <i class="icon-speedometer menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/master-data/master-pensiun}">
+                <span class="menu-title">Master Pensiun</span>
+                <i class="icon-speedometer menu-icon"></i>
+            </a>
+        </li>
+
+        <li class="nav-item nav-category">
+            <span class="nav-link">ADMINISTRASI</span>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/transaction/registrasi-ulang}">
+                <span class="menu-title">Registrasi Ulang</span>
+                <i class="icon-speedometer menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/transaction/perekaman-data}">
+                <span class="menu-title">Perekaman Data Penerima </span>
+                <i class="icon-speedometer menu-icon"></i>
+            </a>
+        </li>
+
+        <li class="nav-item nav-category">
+            <span class="nav-link">LAPORAN</span>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/report/sudah-registrasi}">
+                <span class="menu-title">Laporan Yang Sudah Registrasi</span>
+                <i class="icon-document menu-icon"></i>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/report/belum-registrasi}">
+                <span class="menu-title">Laporan Yang Belum Registrasi</span>
+                <i class="icon-document menu-icon"></i>
+            </a>
+        </li>
+
+        <li class="nav-item nav-category">
+            <span class="nav-link">SETTING</span>
+        </li>
+        <!-- <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                <span class="menu-title">Basic UI Elements</span>
+                <i class="icon-layers menu-icon"></i>
+            </a>
+            <div class="collapse" id="ui-basic">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>
+                </ul>
+            </div>
+        </li> -->
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/master-data/users}">
+                <span class="menu-title">Users</span>
+                <i class="icon-grid menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/master-data/role}">
+                <span class="menu-title">Hak Akses</span>
+                <i class="icon-globe menu-icon"></i>
+            </a>
+        </li>
+        <!-- <li class="nav-item">
+            <a class="nav-link" th:href="@{/master-data/menu}">
+                <span class="menu-title">Menu</span>
+                <i class="icon-grid menu-icon"></i>
+            </a>
+        </li> -->
+
+    </ul>
+</nav>

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="partial/header :: header">
+
+</head>
+<body>
+<div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <nav th:replace="partial/navbar :: navbar"></nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <div class="row row-offcanvas row-offcanvas-right">
+            <nav th:replace="partial/menu :: sidebar"></nav>
+            <!-- partial -->
+            <div class="content-wrapper">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Daftar Users</h4>
+                        <div class="row">
+                            <div class="col-12">
+                                <button class='btn btn-success btn-fw' data-toggle="modal" id="btn-add">Tambah Data</button><br><br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <table id="user_table" class="table" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nama</th>
+                                        <th>Email</th>
+                                        <th>Username</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- MODAL -->
+            <!-- CREATE -->
+            <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Olah Data User</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="post" id="userForm" name="userForm">
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label">Nama</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" id="id" name="id">
+                                                <input type="text" id="name" name="name" class="form-control" placeholder="Isi nama">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label">Email</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="email" name="email" class="form-control" placeholder="Isi Email">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label">Username</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="username" name="username" class="form-control" placeholder="username">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label">Password</label>
+                                            <div class="col-sm-8">
+                                                <input type="password" id="password" name="password" class="form-control" placeholder="password">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label">Kantor PPBI</label>
+                                            <div class="col-sm-8">
+                                                <select name="masterPPBI" id="masterPPBI" class="form-control form-control-sm">
+                                                    <option></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label">Role</label>
+                                            <div class="col-sm-8">
+                                                <select name="role" id="role" class="form-control form-control-sm">
+                                                    <option></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" onclick="saveForm()">Submit</button>
+                                <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EDIT -->
+            <div class="modal fade" id="exampleModalEdit" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabelEdit">Olah Data User</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="post" id="userFormEdit" name="userForm">
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label">Nama</label>
+                                            <div class="col-sm-8">
+                                                <input type="hidden" id="idEdit" name="id">
+                                                <input type="text" id="nameEdit" name="name" class="form-control" placeholder="Isi nama">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label">Email</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="emailEdit" name="email" class="form-control" placeholder="Isi Email">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label">Username</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="usernameEdit" name="username" class="form-control" placeholder="username">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label">Kantor PPBI</label>
+                                            <div class="col-sm-8">
+                                                <select name="masterPPBI" id="masterPPBIEdit" class="form-control form-control-sm">
+                                                    <option></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label">Role</label>
+                                            <div class="col-sm-8">
+                                                <select name="role" id="roleEdit" class="form-control form-control-sm">
+                                                    <option></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" onclick="saveFormEdit()">Submit</button>
+                                <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--&lt;!&ndash; END MODAL &ndash;&gt;-->
+            <!-- content-wrapper ends -->
+            <!-- partial:partials/_footer.html -->
+            <footer class="footer">
+                <div class="container-fluid clearfix">
+                    <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2019</span>
+                </div>
+            </footer>
+        </div>
+        <!-- row-offcanvas ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+
+<section th:replace="partial/scripts :: script"></section>
+<!-- Custom js for this page-->
+<script th:src="@{/js/dkppMain.js}"></script>
+<script th:src="@{/js/data-table.js}"></script>
+<script th:src="@{/node_modules/select2/js/select2.js}"></script>
+<script type="text/javascript">
+
+    var users = dkppDataTable($('#user_table'),
+        '[[${baseUrl}]]'  + '[[${user_path_api}]]',
+        {
+            'columns': [
+                {
+                    "data": "id"
+                },
+                {
+                    "data": "name"
+                },
+                {
+                    "data": "email"
+                },
+                {
+                    "data": "username"
+                },
+                {
+                    "data": "id",
+                    "width" : "200px"
+                },
+            ],
+            'columnDefs': [
+                {
+                    "targets": -1,
+                    "className": "action-box",
+                    "render": function(data, type, row, meta){
+                        let row_data = JSON.stringify(row);
+                        htmlTag  = "<a class='btn btn-outline-info btn-sm btn-icon btn-edit' onclick='displayEditModal(" +row_data+ ")'> Ubah Data</a> <a class='btn btn-danger btn-sm btn-icon btn-edit' onclick='hapus("+row_data+")'> Hapus</a>";
+                        return htmlTag;
+                    }
+                },
+                {
+                    "targets": 0,
+                    "className": "action-box",
+                    "render": function(data, type, row, meta){
+                        return meta.row+1; //Nomor Urut
+                    }
+                }
+            ]
+        });
+
+    function saveForm() {
+        $.ajax({
+            url: "[[${baseUrl}]]"+"/api/master-data/users",
+            method: "POST",
+            data: formToJSON($("form#userForm")[0].elements),
+            success: function(data){
+                $('#exampleModal').modal('hide');
+                if(data.status == "success") {
+                    swal({title: "Berhasil", text: data.message, icon: "success", button: "OK"});
+                }else{
+
+                }
+                users.ajax.reload();
+            },
+            statusCode: {
+                500: function(xhr) {
+                    swal({title: "Gagal", text: xhr.responseText, icon: "error", button: "OK"});
+                },
+                400: function(xhr) {
+                    swal({title: "Gagal", text: xhr.responseText, icon: "error", button: "OK"});
+                },
+                302: function(xhr){
+                    swal({title: "Gagal", text: "Terjadi kegagalan.", icon: "error", button: "OK"});
+                }
+            }
+        });
+
+    }
+
+    $('#btn-add').on('click',function () {
+        $('#userForm').trigger("reset");
+        $('#masterPPBI').val('').trigger('change');
+        $('#role').val('').trigger('change');
+        $('#name').val('');
+        $('#email').val('');
+        $('#username').val('');
+        $('#password').val('');
+        $('#exampleModal').modal('show');
+
+    });
+
+    var ppbiInsert = $('#masterPPBI').select2({
+        ajax: {
+            url: '[[${baseUrl}]]' + '/api/master-data/ppbi/select2',
+            dataType: 'json',
+            method: 'GET',
+            delay: 250,
+            data: function(params){
+                return {
+                    searchParam: params.term,
+                    valueColumn: 'id',
+                    textColumn: "${name}",
+                    searchColumn: [
+                        'id',
+                        'name'
+                    ],
+                    referenceValue:[
+                        {
+                        }
+                    ],
+                    includeObject: true
+                };
+            },
+            // dropdownParent: $(".mutasi-nama-penerima"),
+            delay: 250,
+            processResults: function(data){
+                return {
+                    results: data
+                };
+            }
+        },
+        width: "100%",
+        placeholder: 'Pilih Master BPPI'
+    });
+
+    var roleInsert = $('#role').select2({
+        ajax: {
+            url: '[[${baseUrl}]]' + '/api/master-data/role/select2',
+            dataType: 'json',
+            method: 'GET',
+            delay: 250,
+            data: function(params){
+                return {
+                    searchParam: params.term,
+                    valueColumn: 'id',
+                    textColumn: "${name}",
+                    searchColumn: [
+                        'id',
+                        'name'
+                    ],
+                    referenceValue:[
+                        {
+                        }
+                    ],
+                    includeObject: true
+                }
+            },
+            // dropdownParent: $(".mutasi-nama-penerima"),
+            delay: 250,
+            processResults: function(data){
+                return {
+                    results: data
+                };
+            }
+        },
+        width: "100%",
+        placeholder: 'Pilih Role'
+    });
+
+
+
+    function displayEditModal(row){
+        $('#userFormEdit').trigger("reset");
+        $('#exampleModalEdit').modal('show');
+        $('#idEdit').val(row.id);
+        $('#nameEdit').val(row.name);
+        $('#emailEdit').val(row.email);
+        $('#usernameEdit').val(row.username);
+
+        $.ajax({
+            url:  '[[${baseUrl}]]'+'/api/master-data/ppbi/select2',
+            method: 'GET',
+            data: {
+                valueColumn: 'id',
+                textColumn: "${name}",
+                searchColumn: [
+                    'name'
+                ],
+
+                includeObject: true
+            },
+            success: function(data){
+                $('#masterPPBIEdit').select2(
+                    {
+                        data: data,
+                        width: "100%",
+                        placeholder: 'Pilih Role'
+                    }
+                );
+                $('#masterPPBIEdit').on('change', (e)=>{
+                    if ($(e.target).select2('data')){
+                        const data = $(e.target).select2('data')[0];
+                        if ($('#masterPPBIEdit').val() != '' && $('#masterPPBIEdit').val() != null) {
+                        }
+                    }
+                });
+                $('#masterPPBIEdit').val(row.masterPPBI.id).trigger('change');
+            }
+        });
+
+
+
+        $.ajax({
+            url:  '[[${baseUrl}]]'+'/api/master-data/role/select2',
+            method: 'GET',
+            data: {
+                valueColumn: 'id',
+                textColumn: "${name}",
+                searchColumn: [
+                    'name'
+                ],
+
+                includeObject: true
+            },
+            success: function(data){
+
+                $('#roleEdit').select2(
+                    {
+                        data: data,
+                        width: "100%",
+                        placeholder: 'Pilih Role'
+                    }
+                );
+                $('#roleEdit').on('change', (e)=>{
+                    if ($(e.target).select2('data')){
+                        const data = $(e.target).select2('data')[0];
+                        if ($('#roleEdit').val() != '' && $('#roleEdit').val() != null) {
+
+                        }
+                    }
+                });
+                $('#roleEdit').val(row.role.id).trigger('change');
+            }
+        });
+    }
+function saveFormEdit() {
+    $.ajax({
+        url: "[[${baseUrl}]]"+"/api/master-data/users",
+        method: "POST",
+        data: formToJSON($("form#userFormEdit")[0].elements),
+        success: function(data){
+            $('#exampleModalEdit').modal('hide');
+            if(data.status == "success") {
+                swal({title: "Berhasil", text: data.message, icon: "success", button: "OK"});
+            }else{
+
+            }
+            users.ajax.reload();
+        },
+        statusCode: {
+            500: function(xhr) {
+                swal({title: "Gagal", text: xhr.responseText, icon: "error", button: "OK"});
+            },
+            400: function(xhr) {
+                swal({title: "Gagal", text: xhr.responseText, icon: "error", button: "OK"});
+            },
+            302: function(xhr){
+                swal({title: "Gagal", text: "Terjadi kegagalan.", icon: "error", button: "OK"});
+            }
+        }
+    });
+
+}
+
+function hapus(data) {
+    var r = confirm("Data Akan Dihapus!");
+    if (r == true) {
+        $.ajax({
+            url: "[[${baseUrl}]]"+"/api/master-data/users/delete/"+data.id,
+            method: "DELETE",
+            success: function(data){
+                $('#exampleModalEdit').modal('hide');
+                if(data.status == "success") {
+                    swal({title: "Berhasil", text: data.message, icon: "success", button: "OK"});
+                }else{
+
+                }
+                users.ajax.reload();
+            },
+            statusCode: {
+                500: function(xhr) {
+                    swal({title: "Gagal", text: xhr.responseText, icon: "error", button: "OK"});
+                },
+                400: function(xhr) {
+                    swal({title: "Gagal", text: xhr.responseText, icon: "error", button: "OK"});
+                },
+                302: function(xhr){
+                    swal({title: "Gagal", text: "Terjadi kegagalan.", icon: "error", button: "OK"});
+                }
+            }
+        });
+    } else {
+
+    }
+}
+
+</script>
+<!-- End custom js for this page-->
+</body>
+
+</html>

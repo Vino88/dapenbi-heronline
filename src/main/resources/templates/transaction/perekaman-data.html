@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="partial/header :: header">
+
+</head>
+<body>
+<div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <nav th:replace="partial/navbar :: navbar"></nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <div class="row row-offcanvas row-offcanvas-right">
+            <nav th:replace="partial/menu :: sidebar"></nav>
+            <!-- partial -->
+            <div class="content-wrapper">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Form Perekaman Data Peserta</h4>
+                        <div class="row">
+                            <div class="col-12">
+                                <button class='btn btn-success btn-fw' data-toggle="modal" id="btn-add" data-target="#exampleModal">Tambah Data</button><br><br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12" style="overflow-x: auto">
+                                <table id="perekaman_table" class="table" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>ID Penerima MP</th>
+                                        <th>Nama Penerima MP</th>
+                                        <th>Foto</th>
+                                        <th>Sidik Jari 1</th>
+                                        <th>Sidik Jari 2</th>
+                                        <th>Sidik Jari 3</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- MODAL -->
+            <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Pengolahan Perekaman Data</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div role="tabpanel">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="nav-item active"><a href="#informationTab" aria-controls="informationTab" role="tab" data-toggle="tab" class="nav-link">Informasi</a>
+
+                                    </li>
+                                    <li role="presentation" class="nav-item "><a href="#uploadTab" aria-controls="uploadTab" role="tab" data-toggle="tab" class="nav-link">Upload</a>
+
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="informationTab">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-4 col-form-label">NIP / ID Penerima MP</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="hidden" id="id" name="id" value="0">
+                                                            <input type="hidden" id="idPenerimaMP" value="${idPenerimaMP}">
+                                                            <select name="idPenerima" id="idPenerima" class="form-control form-control-md">
+                                                                <option></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-4 col-form-label">Nama Penerima</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="namaPenerima" name="namaPenerima" class="form-control" placeholder="Nama Lengkap" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-4 col-form-label">NIP</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="nip" name="nip" class="form-control" placeholder="NIP" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-4 col-form-label">Nama Peserta</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="namaPeserta" name="namaPeserta" class="form-control" placeholder="Nama Peserta" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row hidden-row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-4 col-form-label">Alamat Lengkap</label>
+                                                        <div class="col-sm-8">
+                                                            <textarea class="form-control" rows="5" id="alamatLengkap" name="alamatLengkap" disabled></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row hidden-row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-4 col-form-label">Email</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="email" id="email" name="email" class="form-control" placeholder="Email" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row hide-row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-4 col-form-label">No. Telp</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="noTelp" name="noTelp" class="form-control" placeholder="No. Telp" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-4 col-form-label">Password</label>
+                                                        <div class="col-sm-6">
+                                                            <input type="password" id="password" name="password" class="form-control" placeholder="Input Password Disini">
+                                                            <label class="col-sm-12 col-form-label" hidden id="labelPassword">Password Anda </label>
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <button type="button" class="btn btn-info" onclick="doGeneratePassword()">Generate Password</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-8">
+                                                            <img id="fotoProfile" height="200px" width="auto" th:src="@{${gateway_path_resources}+'/uploads'}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="uploadTab">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-2 col-form-label">Foto</label>
+                                                        <div class="col-sm-10">
+                                                            <div class="row">
+                                                                <!-- <button id="takePicture" class="btn btn-primary">Tampilkan Foto</button> -->
+                                                                <div class = "col-sm-5" id="foto-section" name="foto-section" >
+                                                                    <video id="player" width="100%" autoplay></video>
+                                                                </div>
+                                                                <div class="col-sm-2" name="foto-section" >
+                                                                    <button id="capture" class="btn btn-primary">Ambil Gambar</button>
+
+                                                                </div>
+                                                                <div class="col-sm-5" name="foto-section" >
+                                                                    <canvas id="snapshot" width="378px" height="283px"></canvas>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-2 col-form-label">Sidik Jari Pertama</label>
+                                                        <div class="col-sm-5">
+                                                            <select name="fingerId1" id="fingerId1" class="form-control form-control-md">
+                                                                <option value="">Pilih Jari Ke I</option>
+                                                                <option value="1">Ibu Jari - Kanan</option>
+                                                                <option value="2">Jari Telunjuk - Kanan</option>
+                                                                <option value="3">Jari Tengah - Kanan</option>
+                                                                <option value="4">Jari Manis - Kanan</option>
+                                                                <option value="5">Jari Kelingking - Kanan</option>
+                                                                <option value="6">Ibu Jari - Kiri</option>
+                                                                <option value="7">Jari Telunjuk - Kiri</option>
+                                                                <option value="8">Jari Tengah - Kiri</option>
+                                                                <option value="9">Jari Manis - Kiri</option>
+                                                                <option value="10">Jari Kelingking - Kiri</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <button id="takeFingerprint" class="btn btn-primary">Ambil Sidik Jari</button>
+
+                                                            <button id="takeFingerprintMobile" class="btn btn-primary" onclick="counterAdd(1)">Buat Antrian Sidik Jari Mobile</button>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-2 col-form-label">Sidik Jari Ke Dua</label>
+                                                        <div class="col-sm-5">
+                                                            <select name="fingerId2" id="fingerId2" class="form-control form-control-md">
+                                                                <option value="">Pilih Jari Ke II</option>
+                                                                <option value="1">Ibu Jari - Kanan</option>
+                                                                <option value="2">Jari Telunjuk - Kanan</option>
+                                                                <option value="3">Jari Tengah - Kanan</option>
+                                                                <option value="4">Jari Manis - Kanan</option>
+                                                                <option value="5">Jari Kelingking - Kanan</option>
+                                                                <option value="6">Ibu Jari - Kiri</option>
+                                                                <option value="7">Jari Telunjuk - Kiri</option>
+                                                                <option value="8">Jari Tengah - Kiri</option>
+                                                                <option value="9">Jari Manis - Kiri</option>
+                                                                <option value="10">Jari Kelingking - Kiri</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <button id="takeFingerprint2" class="btn btn-primary">Ambil Sidik Jari</button>
+
+                                                            <button id="takeFingerprintMobile2" class="btn btn-primary" onclick="counterAdd(2)">Buat Antrian Sidik Jari Mobile</button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-2 col-form-label">Sidik Jari Ke Tiga</label>
+                                                        <div class="col-sm-5">
+                                                            <select name="fingerId3" id="fingerId3" class="form-control form-control-md">
+                                                                <option value="">Pilih Jari Ke III</option>
+                                                                <option value="1">Ibu Jari - Kanan</option>
+                                                                <option value="2">Jari Telunjuk - Kanan</option>
+                                                                <option value="3">Jari Tengah - Kanan</option>
+                                                                <option value="4">Jari Manis - Kanan</option>
+                                                                <option value="5">Jari Kelingking - Kanan</option>
+                                                                <option value="6">Ibu Jari - Kiri</option>
+                                                                <option value="7">Jari Telunjuk - Kiri</option>
+                                                                <option value="8">Jari Tengah - Kiri</option>
+                                                                <option value="9">Jari Manis - Kiri</option>
+                                                                <option value="10">Jari Kelingking - Kiri</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <button id="takeFingerprint3" class="btn btn-primary">Ambil Sidik Jari</button>
+
+                                                            <button id="takeFingerprintMobile3" class="btn btn-primary" onclick="counterAdd(3)">Buat Antrian Sidik Jari Mobile</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class = "col-sm-4" id="finger-section" name="finger-section"  hidden>
+                                                    <img id="fingerprint_image" src="" alt="Finger Print Image" width="240px" height="300px"/><br><h4>Jari I</h4>
+                                                </div>
+                                                <div class = "col-sm-4" id="finger-section-2" name="finger-section2"  hidden>
+                                                    <img id="fingerprint_image2" src="" alt="Finger Print Image 2" width="240px" height="300px"/><br><h4>Jari II</h4>
+                                                </div>
+                                                <div class = "col-sm-4" id="finger-section3" name="finger-section3"  hidden>
+                                                    <img id="fingerprint_image3" src="" alt="Finger Print Image 3" width="240px" height="300px"/><br><h4>Jari III</h4>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" id="btnSimpan" onclick="saveForm()">Simpan</button>
+                            <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="editModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Pengolahan Perekaman Data</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div role="tabpanel">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="nav-item active"><a href="#informationTabEdit" aria-controls="informationTabEdit" role="tab" data-toggle="tab" class="nav-link">Informasi</a>
+
+                                    </li>
+                                    <li role="presentation" class="nav-item "><a href="#uploadTabEdit" aria-controls="uploadTabEdit" role="tab" data-toggle="tab" class="nav-link">Upload</a>
+
+                                    </li>
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="informationTabEdit">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">NIP / ID Penerima MP</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="hidden" id="idEdit" name="idEdit" value="0">
+                                                                <input type="text" id="idPenerimaEdit" name="idPenerimaEdit" class="form-control" placeholder="Nama Lengkap" disabled>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Nama Penerima</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" id="namaPenerimaEdit" name="namaPenerimaEdit" class="form-control" placeholder="Nama Lengkap" disabled>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">NIP</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" id="nipEdit" name="nipEdit" class="form-control" placeholder="NIP" disabled>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Nama Peserta</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" id="namaPesertaEdit" name="namaPesertaEdit" class="form-control" placeholder="Nama Peserta" disabled>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row hidden-row">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Alamat Lengkap</label>
+                                                            <div class="col-sm-8">
+                                                                <textarea class="form-control" rows="5" id="alamatLengkapEdit" name="alamatLengkapEdit" disabled></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row hidden-row">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Email</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="email" id="emailEdit" name="emailEdit" class="form-control" placeholder="Email" disabled>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row hide-row">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">No. Telp</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" id="noTelpEdit" name="noTelpEdit" class="form-control" placeholder="No. Telp" disabled>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Password</label>
+                                                            <div class="col-sm-6">
+                                                                <input type="password" id="passwordEdit" name="passwordEdit" class="form-control" placeholder="Input Password Disini">
+                                                                <label class="col-sm-12 col-form-label" hidden id="labelPasswordEdit">Password Anda </label>
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                <button type="button" class="btn btn-info" onclick="doGeneratePasswordEdit()">Generate Password</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group row">
+                                                            <div class="col-sm-8">
+                                                                <img id="fotoProfileEdit" height="200px" width="auto" th:src="@{${gateway_path_resources}+'/uploads'}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="uploadTabEdit">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Foto</label>
+                                                            <div class="col-sm-10">
+                                                                <div class="row">
+                                                                    <!-- <button id="takePictureEdit" class="btn btn-primary">Tampilkan Foto</button> -->
+                                                                    <div class = "col-sm-5" id="foto-section-edit" name="foto-section-edit" >
+                                                                        <video id="playerEdit" width="100%" autoplay></video>
+                                                                    </div>
+                                                                    <div class="col-sm-2" name="foto-section-edit" >
+                                                                        <button id="captureEdit" class="btn btn-primary">Ambil Gambar</button>
+
+                                                                    </div>
+                                                                    <div class="col-sm-5" name="foto-section-edit" >
+                                                                        <canvas id="snapshotEdit" width="378px" height="283px"></canvas>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Sidik Jari Pertama</label>
+                                                            <div class="col-sm-5">
+                                                                <select name="fingerIdEdit1" id="fingerIdEdit1" class="form-control form-control-md">
+                                                                    <option value="">Pilih Jari Ke I</option>
+                                                                    <option value="1">Ibu Jari - Kanan</option>
+                                                                    <option value="2">Jari Telunjuk - Kanan</option>
+                                                                    <option value="3">Jari Tengah - Kanan</option>
+                                                                    <option value="4">Jari Manis - Kanan</option>
+                                                                    <option value="5">Jari Kelingking - Kanan</option>
+                                                                    <option value="6">Ibu Jari - Kiri</option>
+                                                                    <option value="7">Jari Telunjuk - Kiri</option>
+                                                                    <option value="8">Jari Tengah - Kiri</option>
+                                                                    <option value="9">Jari Manis - Kiri</option>
+                                                                    <option value="10">Jari Kelingking - Kiri</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-5">
+                                                                <button id="takeFingerprintEdit" class="btn btn-primary">Ambil Sidik Jari</button>
+
+                                                                <button id="takeFingerprintMobileEdit" class="btn btn-primary" onclick="counterAddEdit(1)">Buat Antrian Sidik Jari Mobile</button>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Sidik Jari Ke Dua</label>
+                                                            <div class="col-sm-5">
+                                                                <select name="fingerId2" id="fingerIdEdit2" class="form-control form-control-md">
+                                                                    <option value="">Pilih Jari Ke II</option>
+                                                                    <option value="1">Ibu Jari - Kanan</option>
+                                                                    <option value="2">Jari Telunjuk - Kanan</option>
+                                                                    <option value="3">Jari Tengah - Kanan</option>
+                                                                    <option value="4">Jari Manis - Kanan</option>
+                                                                    <option value="5">Jari Kelingking - Kanan</option>
+                                                                    <option value="6">Ibu Jari - Kiri</option>
+                                                                    <option value="7">Jari Telunjuk - Kiri</option>
+                                                                    <option value="8">Jari Tengah - Kiri</option>
+                                                                    <option value="9">Jari Manis - Kiri</option>
+                                                                    <option value="10">Jari Kelingking - Kiri</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-5">
+                                                                <button id="takeFingerprintEdit2" class="btn btn-primary">Ambil Sidik Jari</button>
+
+                                                                <button id="takeFingerprintMobileEdit2" class="btn btn-primary" onclick="counterAddEdit(2)">Buat Antrian Sidik Jari Mobile</button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Sidik Jari Ke Tiga</label>
+                                                            <div class="col-sm-5">
+                                                                <select name="fingerId3" id="fingerIdEdit3" class="form-control form-control-md">
+                                                                    <option value="">Pilih Jari Ke III</option>
+                                                                    <option value="1">Ibu Jari - Kanan</option>
+                                                                    <option value="2">Jari Telunjuk - Kanan</option>
+                                                                    <option value="3">Jari Tengah - Kanan</option>
+                                                                    <option value="4">Jari Manis - Kanan</option>
+                                                                    <option value="5">Jari Kelingking - Kanan</option>
+                                                                    <option value="6">Ibu Jari - Kiri</option>
+                                                                    <option value="7">Jari Telunjuk - Kiri</option>
+                                                                    <option value="8">Jari Tengah - Kiri</option>
+                                                                    <option value="9">Jari Manis - Kiri</option>
+                                                                    <option value="10">Jari Kelingking - Kiri</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-5">
+                                                                <button id="takeFingerprintEdit3" class="btn btn-primary">Ambil Sidik Jari</button>
+
+                                                                <button id="takeFingerprintMobileEdit3" class="btn btn-primary" onclick="counterAddEdit(3)">Buat Antrian Sidik Jari Mobile</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class = "col-sm-4" id="finger-section-edit" name="finger-section-edit"  hidden>
+                                                        <img id="fingerprint_image_edit" src="" alt="Finger Print Image" width="240px" height="300px"/><br><h4>Jari I</h4>
+                                                    </div>
+                                                    <div class = "col-sm-4" id="finger-section-edit2" name="finger-section-edit2"  hidden>
+                                                        <img id="fingerprint_image_edit2" src="" alt="Finger Print Image 2" width="240px" height="300px"/><br><h4>Jari II</h4>
+                                                    </div>
+                                                    <div class = "col-sm-4" id="finger-section-edit3" name="finger-section-edit3"  hidden>
+                                                        <img id="fingerprint_image_edit3" src="" alt="Finger Print Image 3" width="240px" height="300px"/><br><h4>Jari III</h4>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" id="btnSimpanEdit" onclick="saveFormEdit()">Simpan</button>
+                            <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- END MODAL -->
+            <!-- LOADER -->
+            <div id="loaderSection">
+                <div class="modal fade" id="loaderModal" role="dialog" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+                    <div class="loader"></div>
+                </div>
+            </div>
+            <!-- END LOADER -->
+            <!-- content-wrapper ends -->
+            <!-- partial:partials/_footer.html -->
+            <footer class="footer">
+                <div class="container-fluid clearfix">
+                    <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2019</span>
+                </div>
+            </footer>
+            <!-- partial -->
+        </div>
+        <!-- row-offcanvas ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+
+<section th:replace="partial/scripts :: script"></section>
+<video autoplay></video>
+<!-- Custom js for this page-->
+<script th:src="@{/js/dkppMain.js}"></script>
+<script th:src="@{/js/data-table.js}"></script>
+<script th:src="@{/node_modules/select2/js/select2.js}"></script>
+<!-- <script src="https://app.ringow.com/nwlib6/per/scripts/es6-shim.js"></script>
+<script src="https://app.ringow.com/nwlib6/per/scripts/websdk.client.bundle.min.js"></script>
+<script src="https://app.ringow.com/nwlib6/per/scripts/fingerprint.sdk.min.js"></script> -->
+<script type="text/javascript">
+    var tampilkanGambar = document.getElementById('takePicture');
+    var tampilkanGambarEdit = document.getElementById('takePictureEdit');
+    var takeFingerprint = document.getElementById('takeFingerprint');
+    var takeFingerprint2 = document.getElementById('takeFingerprint2');
+    var takeFingerprint3 = document.getElementById('takeFingerprint3');
+    var takeFingerprintEdit = document.getElementById('takeFingerprintEdit');
+    var takeFingerprintEdit2 = document.getElementById('takeFingerprintEdit2');
+    var takeFingerprintEdit3 = document.getElementById('takeFingerprintEdit3');
+    var player = document.getElementById('player');
+    var playerEdit = document.getElementById('playerEdit');
+    var snapshotCanvas = document.getElementById('snapshot');
+    var snapshotCanvasEdit = document.getElementById('snapshotEdit');
+    var captureButton = document.getElementById('capture');
+    var captureButtonEdit = document.getElementById('captureEdit');
+    var videoTracks;
+    var interval = -1;
+
+    $("a[href='#uploadTab']").on('show.bs.tab', function(e) {
+        navigator.mediaDevices.getUserMedia({video: true})
+            .then(handleSuccess);
+    });
+
+    $("a[href='#informationTab']").on('show.bs.tab', function(e) {
+        console.log('show - before the new tab has been shown');
+        videoTracks.forEach(function(track) {track.stop()});
+    });
+
+    $("a[href='#uploadTabEdit']").on('show.bs.tab', function(e) {
+        navigator.mediaDevices.getUserMedia({video: true})
+            .then(handleSuccessEdit);
+    });
+
+    $("a[href='#informationTabEdit']").on('show.bs.tab', function(e) {
+        console.log('show - before the new tab has been shown');
+        videoTracks.forEach(function(track) {track.stop()});
+    });
+
+    $(document).ready(function(){
+        $('.hidden-row').hide();
+        $('.hide-row').hide();
+    });
+
+    /*tampilkanGambar.addEventListener('click', function(){
+       if (tampilkanGambar.textContent == "Tampilkan Foto"){
+           tampilkanGambar.textContent = 'Sembunyikan Foto';
+           $("[name='foto-section']").removeAttr("hidden");
+           navigator.mediaDevices.getUserMedia({video: true})
+               .then(handleSuccess);
+
+       }else if (tampilkanGambar.textContent == "Sembunyikan Foto"){
+           tampilkanGambar.textContent = 'Tampilkan Foto';
+           $("[name='foto-section']").prop("hidden","hidden");
+           videoTracks.forEach(function(track) {track.stop()});
+       }
+    });*/
+
+    /*tampilkanGambarEdit.addEventListener('click', function(){
+        if (tampilkanGambarEdit.textContent == "Tampilkan Foto"){
+            tampilkanGambarEdit.textContent = 'Sembunyikan Foto';
+            $("[name='foto-section-edit']").removeAttr("hidden");
+            navigator.mediaDevices.getUserMedia({video: true})
+                .then(handleSuccessEdit);
+
+        }else if (tampilkanGambarEdit.textContent == "Sembunyikan Foto"){
+            tampilkanGambarEdit.textContent = 'Tampilkan Foto';
+            $("[name='foto-section-edit']").prop("hidden","hidden");
+            videoTracks.forEach(function(track) {track.stop()});
+        }
+    });*/
+
+    takeFingerprint.addEventListener('click', function(){
+        if($('#idPenerima').val() == ''){
+            swal("Mohon pilih NIP terlebih dahulu");
+            return false;
+        }
+
+        if($('#fingerId1').val() == ''){
+            swal("Mohon pilih jari terlebih dahulu");
+            return false;
+        }
+
+        if (takeFingerprint.textContent == "Ambil Sidik Jari"){
+            takeFingerprint.textContent = 'Selesai Ambil Sidik Jari';
+            $("[name='finger-section']").removeAttr("hidden");
+            startTimer(1);
+
+        }else if (takeFingerprint.textContent == "Selesai Ambil Sidik Jari"){
+            takeFingerprint.textContent = 'Ambil Sidik Jari';
+            $("[name='finger-section']").prop("hidden","hidden");
+            stopTimer(1);
+        }
+    });
+
+    takeFingerprint2.addEventListener('click', function(){
+        if($('#idPenerima').val() == ''){
+            swal("Mohon pilih NIP terlebih dahulu");
+            return false;
+        }
+
+        if($('#fingerId2').val() == ''){
+            swal("Mohon pilih jari ke dua terlebih dahulu");
+            return false;
+        }
+
+        if (takeFingerprint2.textContent == "Ambil Sidik Jari"){
+            takeFingerprint2.textContent = 'Selesai Ambil Sidik Jari';
+            $("[name='finger-section2']").removeAttr("hidden");
+            startTimer(2);
+
+        }else if (takeFingerprint2.textContent == "Selesai Ambil Sidik Jari"){
+            takeFingerprint2.textContent = 'Ambil Sidik Jari';
+            $("[name='finger-section2']").prop("hidden","hidden");
+            stopTimer(2);
+        }
+    });
+
+    takeFingerprint3.addEventListener('click', function(){
+        if($('#idPenerima').val() == ''){
+            swal("Mohon pilih NIP terlebih dahulu");
+            return false;
+        }
+
+        if($('#fingerId3').val() == ''){
+            swal("Mohon pilih jari ke tiga terlebih dahulu");
+            return false;
+        }
+
+        if (takeFingerprint3.textContent == "Ambil Sidik Jari"){
+            takeFingerprint3.textContent = 'Selesai Ambil Sidik Jari';
+            $("[name='finger-section3']").removeAttr("hidden");
+            startTimer(3);
+
+        }else if (takeFingerprint3.textContent == "Selesai Ambil Sidik Jari"){
+            takeFingerprint3.textContent = 'Ambil Sidik Jari';
+            $("[name='finger-section3']").prop("hidden","hidden");
+            stopTimer(3);
+        }
+    });
+
+    takeFingerprintEdit.addEventListener('click', function(){
+        if($('#idPenerimaEdit').val() == ''){
+            swal("Mohon pilih NIP terlebih dahulu");
+            return false;
+        }
+
+        if($('#fingerIdEdit1').val() == ''){
+            swal("Mohon pilih jari terlebih dahulu");
+            return false;
+        }
+
+        if (takeFingerprintEdit.textContent == "Ambil Sidik Jari"){
+            takeFingerprintEdit.textContent = 'Selesai Ambil Sidik Jari';
+            $("[name='finger-section-edit']").removeAttr("hidden");
+            startTimer(1);
+
+        }else if (takeFingerprintEdit.textContent == "Selesai Ambil Sidik Jari"){
+            takeFingerprintEdit.textContent = 'Ambil Sidik Jari';
+            $("[name='finger-section-edit']").prop("hidden","hidden");
+            stopTimer(1);
+        }
+    });
+
+    takeFingerprintEdit2.addEventListener('click', function(){
+        if($('#idPenerimaEdit').val() == ''){
+            swal("Mohon pilih NIP terlebih dahulu");
+            return false;
+        }
+
+        if($('#fingerIdEdit2').val() == ''){
+            swal("Mohon pilih jari ke dua terlebih dahulu");
+            return false;
+        }
+
+        if (takeFingerprintEdit2.textContent == "Ambil Sidik Jari"){
+            takeFingerprintEdit2.textContent = 'Selesai Ambil Sidik Jari';
+            $("[name='finger-section-edit2']").removeAttr("hidden");
+            startTimer(2);
+
+        }else if (takeFingerprintEdit2.textContent == "Selesai Ambil Sidik Jari"){
+            takeFingerprintEdit2.textContent = 'Ambil Sidik Jari';
+            $("[name='finger-section-edit2']").prop("hidden","hidden");
+            stopTimer(2);
+        }
+    });
+
+    takeFingerprintEdit3.addEventListener('click', function(){
+        if($('#idPenerimaEdit').val() == ''){
+            swal("Mohon pilih NIP terlebih dahulu");
+            return false;
+        }
+
+        if($('#fingerIdEdit3').val() == ''){
+            swal("Mohon pilih jari ke tiga terlebih dahulu");
+            return false;
+        }
+
+        if (takeFingerprintEdit3.textContent == "Ambil Sidik Jari"){
+            takeFingerprintEdit3.textContent = 'Selesai Ambil Sidik Jari';
+            $("[name='finger-section-edit3']").removeAttr("hidden");
+            startTimer(3);
+
+        }else if (takeFingerprintEdit3.textContent == "Selesai Ambil Sidik Jari"){
+            takeFingerprintEdit3.textContent = 'Ambil Sidik Jari';
+            $("[name='finger-section-edit3']").prop("hidden","hidden");
+            stopTimer(3);
+        }
+    });
+
+    $('#exampleModal').on('hidden.bs.modal', function () {
+        clearForm();
+    });
+
+    $('#editModal').on('hidden.bs.modal', function () {
+        clearFormEdit();
+    })
+
+    function hideLoader(){
+        $("#loaderSection").html("");
+        $(".modal-backdrop").remove();
+    }
+
+    function showLoader(){
+
+        $("#loaderSection").html('<div class="modal fade" id="loaderModal" role="dialog" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">\n' +
+            '                    <div class="loader"></div>\n' +
+            '                </div>');
+        $("#loaderModal").modal("show");
+    }
+
+    function saveForm() {
+        var canvas = document.getElementById("snapshot");
+        var foto = canvas.toDataURL("image/png");
+        //foto = foto.replace('data:image/png;base64,', '');
+        var fileFoto = dataURItoBlob(foto);
+        var formData = new FormData();
+        formData.append("id", $("#id").val());
+        formData.append("name", $("#namaPenerima").val());
+        formData.append("username", $("#idPenerima").val());
+        formData.append("email", $("#email").val());
+        formData.append("password", $("#password").val());
+        formData.append("masterPPBI", 1);
+        formData.append("fileDocs",fileFoto);
+
+        showLoader();
+        $.ajax({
+            url: '[[${gateway_path_api}]]' + '/rekam-data',
+            type: "POST",
+            enctype: 'multipart/form-data',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(data){
+                if(data.status == "success") {
+                    $('#exampleModal').modal('hide');
+                    hideLoader();
+                    swal({title: "Berhasil", text: data.message, icon: "success", button: "OK"}).then(function(){
+                        window.location.reload();
+                    });
+
+                    $.ajax({
+                        url: '[[${gateway_remote_path_api}]]' + '/rekam-data',
+                        type: "POST",
+                        enctype: 'multipart/form-data',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(data){
+                        }
+                    });
+
+                }else{
+                    $('#exampleModal').modal('hide');
+                    hideLoader();
+                }
+
+            },
+            statusCode: {
+                500: function(xhr) {
+                    swal({title: "Gagal", text: xhr.responseText, icon: "error", button: "OK"});
+                    $('#exampleModal').modal('hide');
+                    hideLoader();
+                },
+                302: function(xhr){
+                    swal({title: "Gagal", text: "Terjadi kegagalan.", icon: "error", button: "OK"});
+                    $('#exampleModal').modal('hide');
+                    hideLoader();
+                }
+            }
+        });
+    };
+
+    function saveFormEdit() {
+        var canvas = document.getElementById("snapshotEdit");
+        var foto = canvas.toDataURL("image/png");
+        //foto = foto.replace('data:image/png;base64,', '');
+        var fileFoto = dataURItoBlob(foto);
+        var formData = new FormData();
+        formData.append("id", $("#idEdit").val());
+        formData.append("name", $("#namaPenerimaEdit").val());
+        formData.append("username", $("#idPenerimaEdit").val());
+        formData.append("email", $("#emailEdit").val());
+        formData.append("password", $("#passwordEdit").val());
+        formData.append("masterPPBI", 1);
+        formData.append("fileDocs",fileFoto);
+
+        showLoader();
+        $.ajax({
+            url: '[[${gateway_path_api}]]' + '/rekam-data',
+            type: "POST",
+            enctype: 'multipart/form-data',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(data){
+                if(data.status == "success") {
+                    $('#exampleModal').modal('hide');
+                    hideLoader();
+                    swal({title: "Berhasil", text: data.message, icon: "success", button: "OK"}).then(function(){
+                        window.location.reload();
+                    });
+                    $.ajax({
+                        url: '[[${gateway_remote_path_api}]]' + '/rekam-data',
+                        type: "POST",
+                        enctype: 'multipart/form-data',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(data){
+                        }
+                    });
+
+                }else{
+                    $('#exampleModal').modal('hide');
+                    hideLoader();
+                }
+
+            },
+            statusCode: {
+                500: function(xhr) {
+                    swal({title: "Gagal", text: xhr.responseText, icon: "error", button: "OK"});
+                    $('#exampleModal').modal('hide');
+                    hideLoader();
+                },
+                302: function(xhr){
+                    swal({title: "Gagal", text: "Terjadi kegagalan.", icon: "error", button: "OK"});
+                    $('#exampleModal').modal('hide');
+                    hideLoader();
+                }
+            }
+        });
+    };
+
+    function dataURItoBlob(dataURI) {
+        // convert base64/URLEncoded data component to raw binary data held in a string
+        var byteString;
+        if (dataURI.split(',')[0].indexOf('base64') >= 0)
+            byteString = atob(dataURI.split(',')[1]);
+        else
+            byteString = unescape(dataURI.split(',')[1]);
+        // separate out the mime component
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        // write the bytes of the string to a typed array
+        var ia = new Uint8Array(byteString.length);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        return new Blob([ia], {type:mimeString});
+    }
+
+    function counterAdd(id) {
+        var dataIsian = {
+            "userId" : $("#idPenerima").val(),
+            "name" : $("#namaPenerima").val(),
+            "fingerId" : $("#fingerId"+id).val(),
+            "status" : "Open",
+        };
+        $.ajax({
+            url:'[[${gateway_path_api}]]'+'/counter-add',
+            method: "POST",
+            data: dataIsian,
+            success: function(data){
+                if(data.status == "success") {
+                    swal({title: "Berhasil", text: "Antrian Berhasil Ditambahkan Silahkan Lihat ke Layar Device", icon: "success", button: "OK"});
+                }else{
+
+                }
+
+            },
+            statusCode: {
+                500: function(xhr) {
+                    swal({title: "Gagal", text: xhr.responseText, icon: "error", button: "OK"});
+                },
+                302: function(xhr){
+                    swal({title: "Gagal", text: "Terjadi kegagalan.", icon: "error", button: "OK"});
+                }
+            }
+        });
+    };
+
+    function counterAddEdit(id) {
+        var dataIsian = {
+            "userId" : $("#idPenerimaEdit").val(),
+            "name" : $("#namaPenerimaEdit").val(),
+            "fingerId" : $("#fingerIdEdit"+id).val(),
+            "status" : "Open",
+        };
+        $.ajax({
+            url:'[[${gateway_path_api}]]'+'/counter-add',
+            method: "POST",
+            data: dataIsian,
+            success: function(data){
+                if(data.status == "success") {
+                    swal({title: "Berhasil", text: "Antrian Berhasil Ditambahkan Silahkan Lihat ke Layar Device", icon: "success", button: "OK"});
+                }else{
+
+                }
+
+            },
+            statusCode: {
+                500: function(xhr) {
+                    swal({title: "Gagal", text: xhr.responseText, icon: "error", button: "OK"});
+                },
+                302: function(xhr){
+                    swal({title: "Gagal", text: "Terjadi kegagalan.", icon: "error", button: "OK"});
+                }
+            }
+        });
+    };
+
+
+    var handleSuccess = function(stream) {
+        // Attach the video stream to the video element and autoplay.
+        player.srcObject = stream;
+        videoTracks = stream.getVideoTracks();
+    };
+
+    var handleSuccessEdit = function(stream) {
+        // Attach the video stream to the video element and autoplay.
+        playerEdit.srcObject = stream;
+        videoTracks = stream.getVideoTracks();
+    };
+
+    captureButton.addEventListener('click', function() {
+        var context = snapshot.getContext('2d');
+        // Draw the video frame to the canvas.
+        context.drawImage(player, 0, 0, snapshotCanvas.width,
+            snapshotCanvas.height);
+    });
+
+    captureButtonEdit.addEventListener('click', function() {
+        var context = snapshotCanvasEdit.getContext('2d');
+        // Draw the video frame to the canvas.
+        context.drawImage(playerEdit, 0, 0, snapshotCanvasEdit.width,
+            snapshotCanvasEdit.height);
+    });
+
+    
+    loadData();
+
+    function clearForm() {
+        $('#idPenerima').val("");
+        $('#namaPenerima').val("");
+        $('#nip').val("");
+        $('#namaPeserta').val("");
+        $('#alamatLengkap').val("");
+        $('#email').val("");
+        $('#noTelp').val("");
+        $('#password').val("");
+        if (tampilkanGambar.textContent == "Sembunyikan Foto"){
+            tampilkanGambar.textContent = 'Tampilkan Foto';
+            $("#foto-section").prop("hidden","hidden");
+            videoTracks.forEach(function(track) {track.stop()});
+        }
+    }
+
+    function clearFormEdit() {
+        $('#idPenerimaEdit').val("");
+        $('#namaPenerimaEdit').val("");
+        $('#nipEdit').val("");
+        $('#namaPesertaEdit').val("");
+        $('#alamatLengkapEdit').val("");
+        $('#emailEdit').val("");
+        $('#noTelpEdit').val("");
+        $('#passwordEdit').val("");
+        videoTracks.forEach(function(track) {track.stop()});
+    }
+
+    const copyToClipboard = str => {
+        let data = {};
+        if($('#editModal').is(':visible') == true ){
+            data = {
+                action: 'REKAM',
+                doc_type: '',
+                path: '',
+                user_id: $('#idPenerimaEdit').val(),
+                client_type: 'desktop',
+                finger_id: $('#fingerIdEdit' + str).val()
+            };
+        }  else {
+            data = {
+                action: 'REKAM',
+                doc_type: '',
+                path: '',
+                user_id: $('#idPenerima').val(),
+                client_type: 'desktop',
+                finger_id: $('#fingerId' + str).val()
+            };
+        }
+
+
+
+        console.log(data);
+
+        str = JSON.stringify(data);
+
+        const el = document.createElement('textarea');
+        el.value = str;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+    };
+
+    function startTimer(jari = ''){
+        copyToClipboard(jari);
+        var ctr = 0;
+        interval = setInterval(function(){
+            $('#fingerprint_image').attr('src', '../fingerscan_image/' + $('#idPenerima').val() + "-" + $('#fingerId1').val() + '.png?t=' + ctr);
+            $('#fingerprint_image2').attr('src', '../fingerscan_image/' + $('#idPenerima').val() + "-" + $('#fingerId2').val() + '.png?t=' + ctr);
+            $('#fingerprint_image3').attr('src', '../fingerscan_image/' + $('#idPenerima').val() + "-" + $('#fingerId3').val() + '.png?t=' + ctr);
+            $('#fingerprint_image_edit').attr('src', '../fingerscan_image/' + $('#idPenerimaEdit').val() + "-" + $('#fingerIdEdit1').val() + '.png?t=' + ctr);
+            $('#fingerprint_image_edit2').attr('src', '../fingerscan_image/' + $('#idPenerimaEdit').val() + "-" + $('#fingerIdEdit2').val() + '.png?t=' + ctr);
+            $('#fingerprint_image_edit3').attr('src', '../fingerscan_image/' + $('#idPenerimaEdit').val() + "-" + $('#fingerIdEdit3').val() + '.png?t=' + ctr);
+            console.log(ctr);
+            ctr++;
+        }, 1000);
+
+    }
+
+    function stopTimer(jari) {
+        clearInterval(interval);
+        $.ajax({
+            url: '[[@{/api/default-fingerprint}]]',
+            method: "GET",
+            success: function(){
+
+            },
+            statusCode: {
+                500: function(xhr) {
+                    swal({title: "Gagal", text: xhr.responseText, icon: "error", button: "OK"});
+                },
+                302: function(xhr){
+                    swal({title: "Gagal", text: "Terjadi kegagalan.", icon: "error", button: "OK"});
+                }
+            }
+        });
+    }
+
+    function loadData() {
+
+        var mutasiKantorBayar = dkppDataTable($('#perekaman_table'),
+            '[[@{/api/transaction/perekaman-data}]]',
+            {
+                'columns': [
+                    {
+                        "data": "id"
+                    },
+                    {
+                        "data": "username"
+                    },
+                    {
+                        "data": "name"
+                    },
+                    {
+                        "data": "foto"
+                    },
+                    {
+                        "data": "finger1"
+                    },
+                    {
+                        "data": "finger2"
+                    },
+                    {
+                        "data": "finger3"
+                    },
+                    {
+                        "data": "id",
+                        "width" : "200px"
+                    },
+                ],
+                'columnDefs': [
+                    {
+                        "targets": -1,
+                        "className": "action-box",
+                        "render": function(data, type, row, meta){
+                            let row_data = JSON.stringify(row);
+                            htmlTag  = "<a class='btn btn-outline-info btn-sm btn-icon btn-edit' onclick='displayEditModal(" +row_data+ ")'> Ubah Data</a> <a class='btn btn-danger btn-sm btn-icon btn-edit' onclick='edit'> Hapus</a> <br><a class='btn btn-outline-info btn-sm btn-icon btn-edit' onclick='cetakReport(" +row_data+ ")'><i class='fa fa-print'> Cetak</i></a>";
+                            return htmlTag;
+                        }
+                    },
+                    {
+                        "targets": 0,
+                        "className": "action-box",
+                        "render": function(data, type, row, meta){
+                            return meta.row+1; //Nomor Urut
+                        }
+                    },
+                    {
+                        "targets": 3,
+                        "className": "action-box",
+                        "render": function(data, type, row, meta){
+                            if (row.foto != null){
+                                return "<i class='fa fa-check'></i>"
+                            }else{
+                                return "-"
+                            }
+                        }
+                    },
+                    {
+                        "targets": 4,
+                        "className": "action-box",
+                        "render": function(data, type, row, meta){
+                            if (row.finger1 != null){
+                                return "<i class='fa fa-check'></i>"
+                            }else{
+                                return "-"
+                            }
+                        }
+                    },
+                    {
+                        "targets": 5,
+                        "className": "action-box",
+                        "render": function(data, type, row, meta){
+                            if (row.finger2 != null){
+                                return "<i class='fa fa-check'></i>"
+                            }else{
+                                return "-"
+                            }
+                        }
+                    },
+                    {
+                        "targets": 6,
+                        "className": "action-box",
+                        "render": function(data, type, row, meta){
+                            if (row.finger3 != null){
+                                return "<i class='fa fa-check'></i>"
+                            }else{
+                                return "-"
+                            }
+                        }
+                    }
+                ]
+            });
+
+    }
+
+    var select2Nip = $('#idPenerima').select2({
+        ajax: {
+            url: '[[@{/api/transaction/perekaman-data}]]/search-id-perekaman-data',
+            dataType: 'json',
+            method: 'GET',
+            delay: 250,
+            data: function(params){
+                return {
+                    searchParam: params.term,
+                    valueColumn: 'id',
+                    textColumn: "${nip} - ${namaPeserta}",
+                    searchColumn: [
+                        'id',
+                        'text'
+                    ],
+                    includeObject: true
+                };
+            },
+            // dropdownParent: $(".mutasi-nama-penerima"),
+            delay: 250,
+            processResults: function(data){
+                return {
+                    results: data
+                };
+            }
+        },
+        width: "100%",
+        placeholder: 'Pilih data'
+    });
+    select2Nip.on('change', function (e) {
+        if ($(e.target).select2('data')) {
+            const data = $(e.target).select2('data')[0];
+            if (select2Nip.val() != '' && select2Nip.val() != null){
+                if (data.dataProperties.namaPenerimaMp != null){
+                    $("#namaPenerima").val(data.dataProperties.namaPenerimaMp);
+                }else{
+                    $("#namaPenerima").val(data.dataProperties.namaPeserta);
+                }
+                $("#nip").val(data.dataProperties.nip);
+                if (data.dataProperties.namaPeserta != null){
+                    $("#namaPeserta").val(data.dataProperties.namaPeserta);
+                }else {
+                    $.ajax({
+                        url: '[[@{/api/transaction/perekaman-data}]]/search-id-perekaman-data?searchParam='+$("#nip").val()+'&valueColumn=id&textColumn=%24%7Bnip%7D%20-%20%24%7BnamaPeserta%7D&searchColumn%5B%5D=id&searchColumn%5B%5D=text&includeObject=true',
+                        method: "GET",
+                        success: function(data){
+                            console.log(data[0]);
+                            $("#namaPeserta").val(data[0].dataProperties.namaPeserta);
+                            $("#alamatLengkap").val(data[0].dataProperties.alamatLengkap);
+                            $("#email").val(data[0].dataProperties.email);
+                            $("#noTelp").val(data[0].dataProperties.noTelp);
+                        },
+                        statusCode: {
+                            500: function(xhr) {
+                                swal({title: "Gagal", text: xhr.responseText, icon: "error", button: "OK"});
+                            },
+                            302: function(xhr){
+                                swal({title: "Gagal", text: "Terjadi kegagalan.", icon: "error", button: "OK"});
+                            }
+                        }
+                    });
+                }
+            }
+        }
+    });
+
+
+    function doGeneratePassword(){
+        $.ajax({
+            url: '[[@{/api/generate-pass}]]',
+            method: "GET",
+            success: function(data){
+                $("#password").val(data);
+                $("#labelPassword").text("Password : "+data);
+                $("#labelPassword").removeAttr("hidden");
+            },
+            statusCode: {
+                500: function(xhr) {
+                    swal({title: "Gagal", text: xhr.responseText, icon: "error", button: "OK"});
+                },
+                302: function(xhr){
+                    swal({title: "Gagal", text: "Terjadi kegagalan.", icon: "error", button: "OK"});
+                }
+            }
+        });
+    }
+
+    function doGeneratePasswordEdit(){
+        $.ajax({
+            url: '[[@{/api/generate-pass}]]',
+            method: "GET",
+            success: function(data){
+                $("#passwordEdit").val(data);
+                $("#labelPasswordEdit").text("Password : "+data);
+                $("#labelPasswordEdit").removeAttr("hidden");
+            },
+            statusCode: {
+                500: function(xhr) {
+                    swal({title: "Gagal", text: xhr.responseText, icon: "error", button: "OK"});
+                },
+                302: function(xhr){
+                    swal({title: "Gagal", text: "Terjadi kegagalan.", icon: "error", button: "OK"});
+                }
+            }
+        });
+    }
+
+    function displayEditModal__(row){
+        $('#btnCetak').hide();
+        $('#exampleModal').modal('show');
+        $('#id').val(row.id);
+        $('#nip').val(row.nip);
+        $('#idPenerima').val(row.username);
+        $('#namaPenerima').val(row.name);
+        $('#email').val(row.email);
+    }
+
+    function displayEditModal(row){
+        $('#editModal').modal('show');
+        $('#idEdit').val(row.id);
+        $('#nipEdit').val(row.nip);
+        $('#idPenerimaEdit').val(row.username);
+        $('#namaPenerimaEdit').val(row.name);
+        $('#emailEdit').val(row.email);
+        $('#fingerIdEdit1').val(row.finger1);
+        $('#fingerIdEdit2').val(row.finger2);
+        $('#fingerIdEdit3').val(row.finger3);
+        $.ajax({
+            url: '[[${gateway_path_api}]]' + '/viewFoto/'+$("#idPenerimaEdit").val()+".png",
+            method: "GET",
+            success: function (data) {
+                $("#fotoProfileEdit").attr('src','data:image/png;base64,'+data);
+            },
+            statusCode: {
+                500: function (xhr) {
+                    swal({title: "Gagal", text: xhr.responseText, icon: "error", button: "OK"});
+                },
+                302: function (xhr) {
+                    loader($("body"), false);
+                    swal({title: "Gagal", text: "Terjadi kegagalan.", icon: "error", button: "OK"});
+                }
+            }
+        });
+    }
+
+    function loadDetailReport(){
+
+    }
+
+    function cetakReport(row){
+        data = {
+            tipeReport: 'informasi',
+            nip: row.username
+        };
+        const param = $.param(data);
+        console.log(param);
+        const reportFrame = $("#cetakCatatan");
+        const res = encodeURI(('src', '[[@{/api/transaction/perekaman-data}]]/report-informasi?'+param));
+        window.open(res,'_blank');
+    }
+</script>
+<!-- End custom js for this page-->
+</body>
+
+</html>
